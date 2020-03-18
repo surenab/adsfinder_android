@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_cars"
+            android:icon="@drawable/ic_car"
+            android:title="Cars" />
+        <item
+            android:id="@+id/nav_houses"
+            android:icon="@drawable/ic_home"
+            android:title="Houses" />
+        <item
+            android:id="@+id/nav_electronics"
+            android:icon="@drawable/ic_electronic"
+            android:title="Electronics" />
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_map"
+            android:title="Map" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

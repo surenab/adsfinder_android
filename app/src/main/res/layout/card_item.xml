@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="180dp"
+    android:layout_height="290dp"
+    android:layout_margin="5dp"
+    android:background="@android:color/background_light"
+    tools:layout_editor_absoluteY="50dp"
+    android:elevation="10dp"
+    android:outlineProvider="bounds"
+    >
+
+    <ProgressBar
+        android:id="@+id/ad_progress"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:paddingTop="60dp"
+        android:layout_gravity="center"
+    />
+
+    <ImageView
+        android:id="@+id/cardImageView"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cardPriceVIew"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:text="1500 $"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeaderView" />
+
+    <TextView
+        android:id="@+id/cardHeaderView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:text="Volkswagenn GolfAAAAAAAAAAAAAAAAA"
+        android:textAlignment="textStart"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardImageView"
+        android:maxLength="18"
+    />
+
+    <TextView
+        android:id="@+id/cardDonorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:linksClickable="true"
+        android:text="Donedeal"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardPriceVIew" />
+
+    <TextView
+        android:id="@+id/cardScrapDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="01.12.19"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardPriceVIew" />
+
+    <TextView
+        android:id="@+id/cardCountyView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:drawableLeft="@drawable/location"
+        android:gravity="center"
+        android:text="Cork"
+        android:textSize="10sp"
+        android:maxLength="18"
+        app:layout_constraintBottom_toTopOf="@+id/cardExtraDataView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardDonorView" />
+
+    <TextView
+        android:id="@+id/cardAdParam1View"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="4dp"
+        android:text="25 000km"
+        android:textSize="10sp"
+        android:maxLength="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardScrapDate" />
+
+    <TextView
+        android:id="@+id/cardExtraDataView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Diesel, 4.0 L"
+        android:textSize="10sp"
+        android:maxLength="10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardCountyView" />
+
+    <TextView
+        android:id="@+id/cardParam2View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="Automatic"
+        android:textSize="10sp"
+        android:maxLength="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardAdParam1View" />
+
+    <Button
+        android:id="@+id/cardCompareButton"
+        android:layout_width="75dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:adjustViewBounds="false"
+        android:background="#fff"
+        android:cropToPadding="false"
+        android:drawableLeft="@drawable/compare"
+        android:drawablePadding="-8dp"
+        android:shadowColor="@android:color/background_light"
+        android:stateListAnimator="@null"
+        android:text="Compare"
+        android:textColorHint="@android:color/background_light"
+        android:textSize="8sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardExtraDataView" />
+
+    <Button
+        android:id="@+id/cardLikeButton"
+        android:layout_width="16dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:background="#fff"
+        android:drawableStart="@drawable/ic_iconmonstr_favorite_1"
+        android:shadowColor="@android:color/background_light"
+        android:stateListAnimator="@null"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textColorHint="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardMoreButton"
+        app:layout_constraintStart_toEndOf="@+id/cardCompareButton"
+        app:layout_constraintTop_toBottomOf="@+id/cardParam2View" />
+
+    <Button
+        android:id="@+id/cardMoreButton"
+        android:layout_width="75dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="2dp"
+        android:background="#fff"
+        android:drawablePadding="-26dp"
+        android:drawableRight="@drawable/ic_iconmonstr_arrow_4"
+        android:stateListAnimator="@null"
+        android:text="More"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="8sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardParam2View" />
+
+
+</android.support.constraint.ConstraintLayout>

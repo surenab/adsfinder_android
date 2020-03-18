@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Map"
+    tools:showIn="@layout/activity_map"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    >
+
+    <Spinner
+        android:id="@+id/county_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_editor_absoluteX="10dp"/>
+
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        mapbox:mapbox_cameraTargetLat="53.35014"
+        mapbox:mapbox_cameraTargetLng="-6.266155"
+        mapbox:mapbox_cameraZoom="4"
+    />
+
+
+    <include layout="@layout/card_map" />
+
+
+
+</FrameLayout>

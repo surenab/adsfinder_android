@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_map_refresh"
+        android:orderInCategory="100"
+        android:title="Refresh"
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android:support.v7.widget.SearchView" />
+    <item
+        android:id="@+id/menu_streets"
+        android:title="Street View"/>
+    <item
+        android:id="@+id/menu_dark"
+        android:title="Dark mode"/>
+    <item
+        android:id="@+id/menu_light"
+        android:title="Light Mode"/>
+    <item
+        android:id="@+id/menu_outdoors"
+        android:title="Outdoor View"/>
+    <item
+        android:id="@+id/menu_satellite"
+        android:title="Satellite View"/>
+    <item
+        android:id="@+id/menu_satellite_streets"
+        android:title="Satellite Street View"/>
+
+</menu>
