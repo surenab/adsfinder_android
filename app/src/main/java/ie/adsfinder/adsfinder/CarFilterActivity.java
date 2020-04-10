@@ -129,7 +129,6 @@ public class CarFilterActivity extends AppCompatActivity {
         year_spinner = findViewById(R.id.rangeYear);
         year_spinner.setMaxStartValue(2020);
         year_spinner.setRight(2020);
-        year_spinner.
         tvYearMin = findViewById(R.id.textYearMin);
         tvYearMax = findViewById(R.id.textYearMax);
         year_spinner.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
