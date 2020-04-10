@@ -5,9 +5,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class HouseResult {
-    @SerializedName("address")
+    @SerializedName("lightaddress")
     @Expose
-    private LightAddress address;
+    private LightAddress lightaddress;
     @SerializedName("price")
     @Expose
     private Integer price;
@@ -46,11 +46,11 @@ public class HouseResult {
     private String scrapedate;
 
     public LightAddress getAddress() {
-        return address;
+        return lightaddress;
     }
 
-    public void setAddress(LightAddress address) {
-        this.address = address;
+    public void setAddress(LightAddress lightaddress) {
+        this.lightaddress = lightaddress;
     }
 
     public Integer getPrice() {

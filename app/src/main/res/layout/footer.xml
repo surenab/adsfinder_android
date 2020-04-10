@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:background="@android:color/background_light"
+    android:elevation="10dp"
+    android:outlineProvider="bounds"
+    android:paddingBottom="12dp"
+    tools:layout_editor_absoluteY="50dp">
+
+    <ImageView
+        android:id="@+id/cardImageView"
+        android:layout_width="152dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/adsfinder_logosl"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cardHeaderView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="110dp"
+        android:maxLength="18"
+        android:text="Information"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeaderView3" />
+
+    <TextView
+        android:id="@+id/cardHeaderView4"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="110dp"
+        android:maxLength="18"
+        android:text="Helpful Links"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/cardHeaderView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeaderView2" />
+
+    <TextView
+        android:id="@+id/cardHeaderView3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginTop="16dp"
+        android:maxLength="18"
+        android:text="Contact"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardImageView" />
+
+    <TextView
+        android:id="@+id/cardHeaderView2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:maxLength="18"
+        android:text="About Us"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/cardHeaderView3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardImageView" />
+
+    <TextView
+        android:id="@+id/cardScrapDate"
+        android:layout_width="162dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Address: Cork, Ireland  Email:support@adsfinder.ie"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeaderView3" />
+
+    <TextView
+        android:id="@+id/cardScrapDate2"
+        android:layout_width="110dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Blog"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardScrapDate6" />
+
+    <TextView
+        android:id="@+id/cardScrapDate6"
+        android:layout_width="110dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Pricing"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardScrapDate5" />
+
+    <TextView
+        android:id="@+id/cardScrapDate5"
+        android:layout_width="110dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:text="About Us"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeaderView" />
+
+    <TextView
+        android:id="@+id/cardScrapDate4"
+        android:layout_width="110dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Terms and Conditions "
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/cardScrapDate2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeaderView4" />
+
+    <TextView
+        android:id="@+id/cardScrapDate3"
+        android:layout_width="169dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Adsfinder.ie is first world class service which provide you opportunity to know new added AD right after it is appear in the World Wide Web."
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardHeaderView2" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="110dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Privacy Policy"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/cardScrapDate2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="110dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:text="Support"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/cardScrapDate2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardScrapDate4" />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,11 +1,15 @@
 package ie.adsfinder.adsfinder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.text.HtmlCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
@@ -13,14 +17,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +53,12 @@ public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.mContext = mContext;
         mData = new ArrayList<>();
     }
-
+    private void openDetailView(String searchType, Integer id) {
+        Intent detail_intent = new Intent(this.mContext, DetailViewActivity.class);
+        detail_intent.putExtra("SType", searchType);
+        detail_intent.putExtra("id", id);
+        this.mContext.startActivity(detail_intent);
+    }
     public List<HouseResult> getMData() {
         return mData;
     }
@@ -83,7 +95,8 @@ public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private ImageView card_photo;
         private TextView tv_header,tv_donor,tv_scrapedate,tv_county,tv_param1,tv_param2,tv_extradata, tv_price;
         private ProgressBar tv_Progress;
-
+        private Button more_button;
+        private ConstraintLayout cardView;
         public MovieVH(View itemView) {
             super(itemView);
             card_photo = itemView.findViewById(R.id.cardImageView);
@@ -96,6 +109,8 @@ public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tv_extradata = itemView.findViewById(R.id.cardExtraDataView);
             tv_price = itemView.findViewById(R.id.cardPriceVIew);
             tv_Progress = itemView.findViewById(R.id.ad_progress);
+            more_button = itemView.findViewById(R.id.cardMoreButton);
+            cardView = itemView.findViewById(R.id.cardView);
         }
     }
 
@@ -107,7 +122,7 @@ public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        HouseResult result = mData.get(position);
+        final HouseResult result = mData.get(position);
         switch (getItemViewType(position)) {
             case ITEM:
                 final MovieVH movieVH = (MovieVH) holder;
@@ -143,23 +158,31 @@ public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 } else {
                     movieVH.tv_price.setText(result.getPrice() + "€");
                 }
-                Glide.with(mContext).load(result.getMainimageurl()).listener(new RequestListener<String, GlideDrawable>() {
-                            @Override
-                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                movieVH.tv_Progress.setVisibility(View.GONE);
-                                return false;
-                            }
-                            @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                // image ready, hide progress now
-                                movieVH.tv_Progress.setVisibility(View.GONE);
-                                return false;   // return false if you want Glide to handle everything else.
-                            }
-                        })
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)   // cache both original & resized image
-                        .centerCrop()
-                        .crossFade()
-                        .into(movieVH.card_photo);
+                Glide.with(mContext).load(result.getMainimageurl()).apply(new RequestOptions().dontAnimate().skipMemoryCache(true)).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        movieVH.tv_Progress.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        movieVH.tv_Progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).into(movieVH.card_photo);
+                movieVH.more_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openDetailView("Houses", result.getId());
+                    }
+                });
+                movieVH.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openDetailView("Houses", result.getId());
+                    }
+                });
                 break;
             case LOADING:
                 break;

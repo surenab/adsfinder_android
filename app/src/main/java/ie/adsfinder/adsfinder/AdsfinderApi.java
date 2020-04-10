@@ -12,7 +12,7 @@ public class AdsfinderApi {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl("https://adsfinder.ie/")
+                    .baseUrl("http://adsfinder.ie/")
                     .build();
         }
         return retrofit;

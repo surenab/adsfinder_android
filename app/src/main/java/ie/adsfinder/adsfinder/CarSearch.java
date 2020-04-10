@@ -7,7 +7,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,12 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ie.adsfinder.adsfinder.api.CarResult;
+import ie.adsfinder.adsfinder.api.CarsModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -34,7 +43,13 @@ public class CarSearch extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private AdsfinderCarListService adsfinderService;
+    private RecyclerView recyclerViewRecent;
+    private RecyclerView recyclerViewFeauture;
+    private RecyclerView recyclerViewLatest;
+    private CardsAdapter carAdapterRecent;
+    private CardsAdapter carAdapterFeauture;
+    private CardsAdapter carAdapterLatest;
     private OnFragmentInteractionListener mListener;
 
     public CarSearch() {
@@ -71,7 +86,47 @@ public class CarSearch extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_car_search, container, false);
+        View view =  inflater.inflate(R.layout.fragment_car_search, container, false);
+        adsfinderService = AdsfinderApi.getClient().create(AdsfinderCarListService.class);
+
+        recyclerViewLatest = view.findViewById(R.id.latest_list);
+        recyclerViewFeauture = view.findViewById(R.id.feuture_list);
+        recyclerViewRecent = view.findViewById(R.id.recent_list);
+
+        LinearLayoutManager layoutManagerLatest = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManagerFeauture = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManagerRecent = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewLatest.setLayoutManager(layoutManagerLatest);
+        recyclerViewLatest.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewFeauture.setLayoutManager(layoutManagerFeauture);
+        recyclerViewFeauture.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewRecent.setLayoutManager(layoutManagerRecent);
+        recyclerViewRecent.setItemAnimator(new DefaultItemAnimator());
+
+        carAdapterLatest = new CardsAdapter(getContext());
+        recyclerViewLatest.setAdapter(carAdapterLatest);
+
+        carAdapterFeauture = new CardsAdapter(getContext());
+        recyclerViewFeauture.setAdapter(carAdapterFeauture);
+
+        carAdapterRecent = new CardsAdapter(getContext());
+        recyclerViewRecent.setAdapter(carAdapterRecent);
+
+
+        callCarsApi().enqueue(new Callback<CarsModel>() {
+            @Override
+            public void onResponse(Call<CarsModel> call, Response<CarsModel> response) {
+                List<CarResult> results = fetchResults(response);
+                carAdapterLatest.addAll(results);
+                carAdapterFeauture.addAll(results);
+                carAdapterRecent.addAll(results);
+            }
+            @Override
+            public void onFailure(Call<CarsModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -110,5 +165,12 @@ public class CarSearch extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    private Call<CarsModel> callCarsApi() {
+        return adsfinderService.getCars(0);
+    }
+    private List<CarResult> fetchResults(Response<CarsModel> response) {
+        CarsModel cars = response.body();
+        return cars.getResults();
+    }
 
 }

@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -54,8 +55,11 @@ public class SearchResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "on SearchResult onCreate method");
         setContentView(R.layout.result_view);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         searchType = getIntent().getStringExtra("SearchType");
-        Log.d("SHOW DATA", searchType);
+
         progressBar = findViewById(R.id.main_progress);
         recyclerView = findViewById(R.id.card_list);
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -67,7 +71,7 @@ public class SearchResult extends AppCompatActivity {
         recyclerView.setLayoutManager(listGridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        FloatingActionButton back_button = findViewById(R.id.back_button);
+        Button back_button = findViewById(R.id.filter_button);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,7 +142,6 @@ public class SearchResult extends AppCompatActivity {
         }
         Log.d(TAG, "Running First elements");
     }
-
 
     private void loadElectronicFirstPage() {
         Log.d("SHOW DATA", "loadHouseFirstPage");

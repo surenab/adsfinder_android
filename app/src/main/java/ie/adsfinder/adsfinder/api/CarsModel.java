@@ -30,7 +30,7 @@ public class CarsModel {
     }
 
     public List<CarResult> getResults() {
-        Log.d("from get Result function", results.toString());
+
         return results;
     }
 

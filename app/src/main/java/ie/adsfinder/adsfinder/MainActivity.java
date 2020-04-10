@@ -51,34 +51,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         builder = new AlertDialog.Builder(this);
         builder.setView(R.layout.activity_loading);
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                oppenSearchView();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
@@ -89,27 +81,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void searchFunction(View v) {
-        final Dialog dialog = builder.create();
-        dialog.show();
-        Intent search_intent = new Intent(MainActivity.this, SearchResult.class);
+        Intent search_intent = null;
         switch(v.getId()) {
             case R.id.car_search_button:
+                search_intent = new Intent(MainActivity.this, CarFilterActivity.class);
                 search_intent.putExtra("SearchType", "Cars");
                 break;
             case R.id.house_search_button:
+                search_intent = new Intent(MainActivity.this, SearchResult.class);
                 search_intent.putExtra("SearchType", "Houses");
                 break;
             case R.id.electronic_search_button:
+                search_intent = new Intent(MainActivity.this, SearchResult.class);
                 search_intent.putExtra("SearchType", "Electronics");
                 break;
         }
         startActivity(search_intent);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dialog.dismiss();
-            }
-        }, 7000);
     }
 
     @Override

@@ -30,7 +30,6 @@ public class ElectronicsModel {
     }
 
     public List<ElectronicResult> getResults() {
-        Log.d("from get Result function", results.toString());
         return results;
     }
 

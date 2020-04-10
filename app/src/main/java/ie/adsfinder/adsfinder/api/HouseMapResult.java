@@ -5,30 +5,30 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class HouseMapResult {
-    @SerializedName("address__latitude")
+    @SerializedName("lightaddress__latitude")
     @Expose
-    private Float address__latitude;
-    @SerializedName("address__longitude")
+    private Float lightaddress__latitude;
+    @SerializedName("lightaddress__longitude")
     @Expose
-    private Float address__longitude;
+    private Float lightaddress__longitude;
     @SerializedName("id")
     @Expose
     private Integer id;
 
     public Float getAddress__latitude() {
-        return address__latitude;
+        return lightaddress__latitude;
     }
 
-    public void setAddress__latitude(Float address__latitude) {
-        this.address__latitude = address__latitude;
+    public void setAddress__latitude(Float lightaddress__latitude) {
+        this.lightaddress__latitude = lightaddress__latitude;
     }
 
     public Float getAddress__longitude() {
-        return address__longitude;
+        return lightaddress__longitude;
     }
 
-    public void setAddress__longitude(Float address__longitude) {
-        this.address__longitude = address__longitude;
+    public void setAddress__longitude(Float lightaddress__longitude) {
+        this.lightaddress__longitude = lightaddress__longitude;
     }
 
     public Integer getId() {

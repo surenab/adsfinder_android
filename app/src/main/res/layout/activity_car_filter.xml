@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/divider14"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Make:"
+                android:textAlignment="viewStart"
+                android:textStyle="bold" />
+
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/searchMake"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/background_light"
+                android:elevation="24dp"
+                android:minHeight="45dp"
+                app:hintText="Any" />
+
+            <View
+                android:id="@+id/divider9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Model:"
+                android:textStyle="bold" />
+
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/searchModel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/background_light"
+                android:clickable="false"
+                android:elevation="24dp"
+                android:minHeight="45dp"
+                app:hintText="Any" />
+
+
+            <View
+                android:id="@+id/divider104"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/textCounty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="County:"
+                android:textAlignment="viewStart"
+                android:textStyle="bold" />
+
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/searchCounty"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/background_light"
+                android:elevation="24dp"
+                android:minHeight="45dp"
+                app:hintText="Any" />
+
+            <View
+                android:id="@+id/divider1004"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/textArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Area:"
+                android:textAlignment="viewStart"
+                android:textStyle="bold" />
+
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/searchArea"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/background_light"
+                android:elevation="24dp"
+                android:minHeight="45dp"
+                app:hintText="Any" />
+
+
+            <View
+                android:id="@+id/divider10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@android:color/background_light"
+                android:text="Fuel Type:"
+                android:textStyle="bold" />
+
+            <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
+                android:id="@+id/searchFuelType"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/background_light"
+                android:elevation="24dp"
+                android:minHeight="45dp"
+                app:hintText="Any" />
+
+            <View
+                android:id="@+id/divider11"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Transmission:"
+                android:textStyle="bold" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:id="@+id/transmission_group"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/transmission_any"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:checked="true"
+                    android:text="Any" />
+
+                <RadioButton
+                    android:id="@+id/transmission_manual"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="Manual" />
+
+                <RadioButton
+                    android:id="@+id/transmission_automatic"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="Automatic" />
+            </RadioGroup>
+
+            <View
+                android:id="@+id/divider13"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Condition:"
+                android:textStyle="bold" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:layout_marginStart="8dp"
+                android:gravity="center_horizontal"
+                android:id="@+id/condition_group"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/sound"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:checked="true"
+                    android:text="Any" />
+
+                <RadioButton
+                    android:id="@+id/vibration"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="Used" />
+
+                <RadioButton
+                    android:id="@+id/silent"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:text="New" />
+            </RadioGroup>
+
+            <View
+                android:id="@+id/divider12"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:minWidth="40dp"
+                    android:text="Price:"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textPriceMin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="0 ‎€"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" - "
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textPriceMax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="200000 ‎€"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+                android:id="@+id/rangePrice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="40dp"
+                app:position="right"
+                app:bar_color="#C69E89"
+                app:bar_highlight_color="#A54B17"
+                app:corner_radius="10"
+                app:data_type="_integer"
+                app:left_thumb_color="#775E4F"
+                app:left_thumb_color_pressed="#4C2D1A"
+                app:max_value="200000"
+                app:min_value="0"
+                app:steps="100" />
+
+            <View
+                android:id="@+id/divider16"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:minWidth="40dp"
+                    android:text="Year:"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textYearMin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="1950"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" - "
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textYearMax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="2020"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+                android:id="@+id/rangeYear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="40dp"
+                app:bar_color="#C69E89"
+                app:bar_highlight_color="#A54B17"
+                app:corner_radius="10"
+                app:data_type="_integer"
+                app:left_thumb_color="#775E4F"
+                app:left_thumb_color_pressed="#4C2D1A"
+                app:max_value="2020"
+                app:min_value="1950"
+                app:steps="1" />
+
+
+            <View
+                android:id="@+id/divider17"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:minWidth="40dp"
+                    android:text="Mileage:"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textMileageMin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="0KM"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" - "
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textMileageMax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="1000000KM"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+                android:id="@+id/rangeMileage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="40dp"
+                app:bar_color="#C69E89"
+                app:bar_highlight_color="#A54B17"
+                app:corner_radius="10"
+                app:data_type="_integer"
+                app:left_thumb_color="#775E4F"
+                app:left_thumb_color_pressed="#4C2D1A"
+                app:max_value="300000"
+                app:min_value="0"
+                app:steps="5000" />
+
+            <View
+                android:id="@+id/divider18"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:minWidth="40dp"
+                    android:text="Engine SIze:"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textEngineSizeMin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="0L"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text=" - "
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textEngineSizeMax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="10L"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+                android:id="@+id/range_enginesize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bar_color="#F7BB88"
+                app:bar_highlight_color="#E07416"
+                app:corner_radius="10"
+                app:data_type="_float"
+                app:left_thumb_color="#775E4F"
+                app:left_thumb_color_pressed="#4C2D1A"
+                app:max_value="10"
+                app:min_value="0"
+                app:right_thumb_color="#775E20"
+                app:right_thumb_color_pressed="#4C1D1F"
+                app:steps="0.1" />
+
+            <View
+                android:id="@+id/divider19"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/resetFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:elevation="10dp"
+                    android:text="Resset" />
+
+                <Button
+                    android:id="@+id/applyFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@color/ColorPrimary"
+                    android:elevation="10dp"
+                    android:text="Apply" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

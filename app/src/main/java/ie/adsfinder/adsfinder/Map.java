@@ -1,9 +1,11 @@
 package ie.adsfinder.adsfinder;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.JsonParser;
 import com.mapbox.android.core.location.LocationEngine;
@@ -18,14 +20,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.text.HtmlCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -136,6 +141,10 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_map);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
         adsfinderService = AdsfinderApi.getClient().create(AdsfinderCarListService.class);
 
         Spinner spinner = findViewById(R.id.county_spinner);
@@ -153,8 +162,6 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
             }
         });
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         Bundle extras = getIntent().getExtras();
         map_type = extras.getString("map_type");
@@ -232,7 +239,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
     }
 
     private Call<HouseResult> callSingleHouseApi(Integer id) {
-        return adsfinderService.getHouseById(id);
+        return adsfinderService.getMapHouseById(id);
     }
     private void loadSingleHouseData(Integer id) {
         callSingleHouseApi(id).enqueue(new Callback<HouseResult>() {
@@ -266,19 +273,20 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
 
                 ImageView card_photo = findViewById(R.id.cardImageView);
                 tv_Progress = findViewById(R.id.ad_progress);
+                Glide.with(getWindow().getContext()).load(result.getMainimageurl()).apply(new RequestOptions().placeholder(R.color.colorPrimary).dontAnimate().skipMemoryCache(true)).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        tv_Progress.setVisibility(View.GONE);
+                        return false;
+                    }
 
-                Glide.with(getWindow().getContext()).load(result.getMainimageurl()).listener(new RequestListener<String, GlideDrawable>() {
                     @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         tv_Progress.setVisibility(View.GONE);
                         return false;
                     }
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        tv_Progress.setVisibility(View.GONE);
-                        return false;
-                    }
-                }).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().crossFade().into(card_photo);
+                }).into(card_photo);
+
             }
             @Override
             public void onFailure(Call<HouseResult> call, Throwable t) {
@@ -446,23 +454,8 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_streets:
+            case R.id.action_map_filter:
                 mapboxMap.setStyle(Style.MAPBOX_STREETS);
-                return true;
-            case R.id.menu_dark:
-                mapboxMap.setStyle(Style.DARK);
-                return true;
-            case R.id.menu_light:
-                mapboxMap.setStyle(Style.LIGHT);
-                return true;
-            case R.id.menu_outdoors:
-                mapboxMap.setStyle(Style.OUTDOORS);
-                return true;
-            case R.id.menu_satellite:
-                mapboxMap.setStyle(Style.SATELLITE);
-                return true;
-            case R.id.menu_satellite_streets:
-                mapboxMap.setStyle(Style.SATELLITE_STREETS);
                 return true;
             case android.R.id.home:
                 finish();

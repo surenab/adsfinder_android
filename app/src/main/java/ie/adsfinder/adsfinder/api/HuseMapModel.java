@@ -16,7 +16,6 @@ public class HuseMapModel {
     private List<HouseMapResult> results = new ArrayList<HouseMapResult>();
 
     public List<HouseMapResult> getResults() {
-        Log.d("from get Result function", results.toString());
         return results;
     }
 

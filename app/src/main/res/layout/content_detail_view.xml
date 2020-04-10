@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:id="@+id/whole_detail_page"
+        tools:context=".layout.Layout8"
+        xmlns:mapbox="http://schemas.android.com/apk/res-auto">
+
+        <com.smarteist.autoimageslider.SliderLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/imageSlider"/>
+
+        <include layout="@layout/detail_header" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="2dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="GENERAL INFO"
+            android:textColor="@color/colorPrimary" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/general_info_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:isScrollContainer="false"
+            android:nestedScrollingEnabled="false"
+            android:padding="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/top_layout"
+            android:layout_weight="1"
+            android:paddingBottom="8dp"
+            android:paddingEnd="8dp">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:minHeight="20dp"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@android:color/background_dark"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@android:color/holo_orange_dark" />
+
+            <ie.adsfinder.adsfinder.CustomViewPager
+                android:id="@+id/viewDetailsTabPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tabLayout"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="0dp"
+                android:minHeight="200dp"
+                android:padding="2dp"
+                tools:layout_editor_absoluteX="8dp" />
+        </RelativeLayout>
+
+        <com.mapbox.mapboxsdk.maps.MapView
+            android:id="@+id/mapDetailView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:paddingBottom="8dp"
+            mapbox:mapbox_cameraTargetLat="53.35014"
+            mapbox:mapbox_cameraTargetLng="-6.266155"
+            mapbox:mapbox_cameraZoom="4" />
+
+    </LinearLayout>
+</ScrollView>
+

@@ -9,6 +9,7 @@
     tools:layout_editor_absoluteY="50dp"
     android:elevation="10dp"
     android:outlineProvider="bounds"
+    android:id="@+id/cardView"
     >
 
     <ProgressBar
@@ -18,6 +19,7 @@
         android:layout_height="100dp"
         android:paddingTop="60dp"
         android:layout_gravity="center"
+        android:visibility="visible"
     />
 
     <ImageView

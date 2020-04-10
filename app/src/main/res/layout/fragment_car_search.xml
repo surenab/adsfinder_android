@@ -5,14 +5,25 @@
     android:layout_height="match_parent"
     tools:context=".CarSearch">
 
-    <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Search 200K+ Cars"
-        android:onClick="searchFunction"
-        android:id="@+id/car_search_button"
-    />
 
+        <Button
+            android:id="@+id/car_search_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/ColorPrimary"
+            android:elevation="24dp"
+            android:onClick="searchFunction"
+            android:text="Search 200K+ Cars"
+            android:textAllCaps="false" />
+
+        <include
+            layout="@layout/fragment_main_search"
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp" />
 
 </FrameLayout>

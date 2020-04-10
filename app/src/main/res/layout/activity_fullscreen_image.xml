@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    tools:context=".FullscreenImageActivity">
+
+
+    <com.smarteist.autoimageslider.SliderLayout
+        android:id="@+id/imageFullSlider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="none" />
+    <ImageView
+        android:id="@+id/back_arrow"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="top"
+        android:elevation="24dp"
+        android:src="@drawable/ic_arrow_back_white"
+        android:visibility="visible" />
+
+</FrameLayout >
