@@ -2,18 +2,13 @@ package ie.adsfinder.adsfinder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.text.HtmlCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +19,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,13 +26,9 @@ import com.bumptech.glide.request.target.Target;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import ie.adsfinder.adsfinder.api.CarResult;
 import ie.adsfinder.adsfinder.api.HouseResult;
 
 public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -93,7 +83,7 @@ public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     protected class MovieVH extends RecyclerView.ViewHolder {
         private ImageView card_photo;
-        private TextView tv_header,tv_donor,tv_scrapedate,tv_county,tv_param1,tv_param2,tv_extradata, tv_price;
+        private TextView tv_header,tv_donor,tv_scrapedate,tv_county,tv_param1,tv_param2,tv_extradata, tv_price, tv_year_text;
         private ProgressBar tv_Progress;
         private Button more_button;
         private ConstraintLayout cardView;
@@ -111,6 +101,10 @@ public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tv_Progress = itemView.findViewById(R.id.ad_progress);
             more_button = itemView.findViewById(R.id.cardMoreButton);
             cardView = itemView.findViewById(R.id.cardView);
+            tv_year_text = itemView.findViewById(R.id.cardyear);
+            tv_extradata.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_bed, 0, 0, 0);
+            tv_param2.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_bath, 0);
+            tv_param1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_housetype, 0);
         }
     }
 
@@ -131,32 +125,33 @@ public class HousesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 String scrapdate = date[2]+"."+date[1]+"."+date[0].substring(2);
 
                 movieVH.tv_header.setText(AdsfinderUtils.capitalizeWord(result.getProperty_title()));
-                String donor_text = new String("<a href='").concat(result.getUrl()).concat("' target='_top'>").concat(StringUtils.capitalize(result.getDonor())).concat("</a>");
-                movieVH.tv_donor.setText(HtmlCompat.fromHtml(donor_text, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                String donor_text = new String("<a href='").concat(result.getUrl()).concat("' target='_top'> ").concat(StringUtils.capitalize(result.getDonor())).concat("</a>");
+                movieVH.tv_donor.setText(StringUtils.capitalize(result.getDonor()));
                 movieVH.tv_donor.setClickable(true);
                 movieVH.tv_donor.setMovementMethod(LinkMovementMethod.getInstance());
                 movieVH.tv_donor.setLinkTextColor(Color.BLUE);
-                movieVH.tv_scrapedate.setText(StringUtils.capitalize(scrapdate));
-                movieVH.tv_county.setText(AdsfinderUtils.capitalizeWord(result.getAddress().getTown().trim()+", "+result.getAddress().getCounty().trim()));
+                movieVH.tv_scrapedate.setText(StringUtils.capitalize(scrapdate)+" ");
+                movieVH.tv_year_text.setText("");
+                movieVH.tv_county.setText(" "+AdsfinderUtils.capitalizeWord(result.getAddress().getTown().trim()));
                 if (result.getProperty_type() == null) {
-                    movieVH.tv_param1.setText("Unknown");
+                    movieVH.tv_param1.setText("Unknown ");
                 } else {
-                    movieVH.tv_param1.setText(StringUtils.capitalize(result.getProperty_type()));
+                    movieVH.tv_param1.setText(StringUtils.capitalize(result.getProperty_type())+" ");
                 }
                 if (result.getBathrooms() == null) {
-                    movieVH.tv_param2.setText("Unknown");
+                    movieVH.tv_param2.setText("Unknown ");
                 } else {
-                    movieVH.tv_param2.setText(Integer.toString(result.getBathrooms()) + " Bathrooms");
+                    movieVH.tv_param2.setText(Integer.toString(result.getBathrooms()) + " Baths ");
                 }
                 if (result.getBeds() == null) {
                     movieVH.tv_extradata.setText("Unknown");
                 } else {
-                    movieVH.tv_extradata.setText(Integer.toString(result.getBeds()) + " Beds");
+                    movieVH.tv_extradata.setText(" "+Integer.toString(result.getBeds()) + " Beds");
                 }
                 if (result.getPrice()==null) {
-                    movieVH.tv_price.setText("Unknown");
+                    movieVH.tv_price.setText(" Unknown");
                 } else {
-                    movieVH.tv_price.setText(result.getPrice() + "€");
+                    movieVH.tv_price.setText(" "+result.getPrice() + "€");
                 }
                 Glide.with(mContext).load(result.getMainimageurl()).apply(new RequestOptions().dontAnimate().skipMemoryCache(true)).listener(new RequestListener<Drawable>() {
                     @Override

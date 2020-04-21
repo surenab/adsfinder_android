@@ -10,13 +10,6 @@
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     >
 
-    <Spinner
-        android:id="@+id/county_spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        app:layout_editor_absoluteX="10dp"/>
-
-
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -29,6 +22,14 @@
 
     <include layout="@layout/card_map" />
 
+    <ProgressBar
+        android:id="@+id/map_page_progress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="244dp"
+        android:layout_marginTop="244dp"
+    />
 
 
 </FrameLayout>

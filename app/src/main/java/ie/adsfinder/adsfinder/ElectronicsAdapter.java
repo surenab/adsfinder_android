@@ -7,10 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.text.HtmlCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
@@ -86,7 +83,7 @@ public class ElectronicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     protected class MovieVH extends RecyclerView.ViewHolder {
         private ImageView card_photo;
-        private TextView tv_header,tv_donor,tv_scrapedate,tv_county,tv_param1,tv_param2,tv_extradata, tv_price;
+        private TextView tv_header,tv_donor,tv_scrapedate,tv_county,tv_param1,tv_param2,tv_extradata, tv_price, tv_year_text;
         private ProgressBar tv_Progress;
         private Button more_button;
         private ConstraintLayout cardView;
@@ -104,6 +101,9 @@ public class ElectronicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             tv_Progress = itemView.findViewById(R.id.ad_progress);
             more_button = itemView.findViewById(R.id.cardMoreButton);
             cardView = itemView.findViewById(R.id.cardView);
+            tv_year_text = itemView.findViewById(R.id.cardyear);
+            tv_param1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_category, 0);
+
         }
     }
 
@@ -123,21 +123,21 @@ public class ElectronicsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 date = date[0].split("-");
                 String scrapdate = date[2]+"."+date[1]+"."+date[0].substring(2);
 
-                Log.d("Results",scrapdate);
                 movieVH.tv_header.setText(AdsfinderUtils.capitalizeWord(result.getDescription().replaceAll("^[ \t]+|[ \t]+$", "") ));
-                String donor_text = new String("<a href='").concat(result.getUrl()).concat("' target='_top'>").concat(StringUtils.capitalize(result.getDonor())).concat("</a>");
-                movieVH.tv_donor.setText(HtmlCompat.fromHtml(donor_text, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                String donor_text = new String("<a href='").concat(result.getUrl()).concat("' target='_top'> ").concat(StringUtils.capitalize(result.getDonor())).concat("</a>");
+                movieVH.tv_donor.setText(StringUtils.capitalize(result.getDonor()));
                 movieVH.tv_donor.setClickable(true);
                 movieVH.tv_donor.setMovementMethod(LinkMovementMethod.getInstance());
                 movieVH.tv_donor.setLinkTextColor(Color.BLUE);
-                movieVH.tv_scrapedate.setText(StringUtils.capitalize(scrapdate));
+                movieVH.tv_scrapedate.setText(StringUtils.capitalize(scrapdate)+" ");
                 movieVH.tv_county.setText(AdsfinderUtils.capitalizeWord(result.getLightaddress().getTown().trim()+", "+result.getLightaddress().getCounty().trim()));
                 movieVH.tv_param2.setText("");
                 movieVH.tv_extradata.setText("");
+                movieVH.tv_year_text.setText("");
                 if (result.getElectronic_category() == null) {
-                    movieVH.tv_param1.setText("Unknown");
+                    movieVH.tv_param1.setText("Unknown ");
                 } else {
-                    movieVH.tv_param1.setText(result.getElectronic_category().getDisplayName());
+                    movieVH.tv_param1.setText(result.getElectronic_category().getDisplayName()+" ");
                 }
                 if (result.getPrice()==null) {
                     movieVH.tv_price.setText("Unknown");

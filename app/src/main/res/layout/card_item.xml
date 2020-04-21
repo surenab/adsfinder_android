@@ -5,7 +5,7 @@
     android:layout_width="180dp"
     android:layout_height="290dp"
     android:layout_margin="5dp"
-    android:background="@android:color/background_light"
+    android:background="@drawable/round_cart_background"
     tools:layout_editor_absoluteY="50dp"
     android:elevation="10dp"
     android:outlineProvider="bounds"
@@ -35,13 +35,14 @@
         android:id="@+id/cardPriceVIew"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="4dp"
+        android:drawableLeft="@drawable/ic_price"
         android:text="1500 $"
         android:textAlignment="textStart"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardyear"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardHeaderView" />
@@ -72,6 +73,7 @@
         android:text="Donedeal"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
+        android:drawableLeft="@drawable/ic_donor"
         app:layout_constraintTop_toBottomOf="@+id/cardPriceVIew" />
 
     <TextView
@@ -81,6 +83,7 @@
         android:layout_marginEnd="4dp"
         android:text="01.12.19"
         android:textSize="10sp"
+        android:drawableRight="@drawable/ic_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardPriceVIew" />
 
@@ -91,9 +94,9 @@
         android:layout_marginStart="4dp"
         android:drawableLeft="@drawable/location"
         android:gravity="center"
-        android:text="Cork"
-        android:textSize="10sp"
         android:maxLength="18"
+        android:text=" Cork"
+        android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@+id/cardExtraDataView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardDonorView" />
@@ -103,9 +106,10 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="4dp"
-        android:text="25 000km"
-        android:textSize="10sp"
+        android:drawableRight="@drawable/ic_mileage"
         android:maxLength="10"
+        android:text="25 000km "
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardScrapDate" />
 
@@ -190,6 +194,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardParam2View" />
+
+    <TextView
+        android:id="@+id/cardyear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="2017"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cardPriceVIew" />
 
 
 </android.support.constraint.ConstraintLayout>

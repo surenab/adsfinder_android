@@ -1,6 +1,5 @@
 package ie.adsfinder.adsfinder;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -8,45 +7,33 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.BoringLayout;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -55,9 +42,6 @@ import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.Marker;
-import com.mapbox.mapboxsdk.annotations.MarkerOptions;
-import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
@@ -68,44 +52,18 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.style.layers.Layer;
-import com.mapbox.mapboxsdk.style.layers.TransitionOptions;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.smarteist.autoimageslider.SliderLayout;
 import com.smarteist.autoimageslider.SliderView;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import ie.adsfinder.adsfinder.api.CarResult;
-import ie.adsfinder.adsfinder.api.CarsModel;
 import ie.adsfinder.adsfinder.api.DetailResult;
-import ie.adsfinder.adsfinder.api.ElectronicResult;
-import ie.adsfinder.adsfinder.api.ElectronicsModel;
-import ie.adsfinder.adsfinder.api.HouseResult;
-import ie.adsfinder.adsfinder.api.HousesModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Url;
-
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import static ie.adsfinder.adsfinder.AdsfinderUtils.capitalizeWord;
 
@@ -195,8 +153,7 @@ public class DetailViewActivity extends AppCompatActivity implements OnMapReadyC
 
         String video_url = result.getVideo();
         if (video_url != null && video_url.contains("youtube")) {
-            String embed_video_url = "https://www.youtube.com/embed/" + video_url.split("v=")[1].split("&")[0];
-            String frameVideo = "<html><body><br> <iframe width='100%' height='100%' min-height='400' src='" + embed_video_url + "' frameborder='0' allowfullscreen='allowfullscreen'></iframe></body></html>";
+            String frameVideo = "<html><body><br> <iframe width='100%' height='100%' min-height='400' src='" + video_url + "' frameborder='0' allowfullscreen='allowfullscreen'></iframe></body></html>";
             displayVideo = (WebView) findViewById(R.id.webview);
             final WebSettings settings = displayVideo.getSettings();
             settings.setJavaScriptEnabled(true);
@@ -254,11 +211,8 @@ public class DetailViewActivity extends AppCompatActivity implements OnMapReadyC
 
     public void fillMap() {
         if (mapboxMap!=null) {
-            Log.d("LANLOG", result.getLightaddress().toString());
             GeoJsonSource geoJsonSource = new GeoJsonSource("source-id", Feature.fromGeometry(Point.fromLngLat(result.getLightaddress().getLongitude(), result.getLightaddress().getLatitude())));
-            Log.d("GEOJSON", geoJsonSource.toString());
             Style style = mapboxMap.getStyle();
-            Log.d("MAP STYLE", style.toString());
             style.addSource(geoJsonSource);
             setCameraPosition(result.getLightaddress().getLongitude(), result.getLightaddress().getLatitude());
         }
@@ -352,13 +306,11 @@ public class DetailViewActivity extends AppCompatActivity implements OnMapReadyC
 
         public TabAdapter(FragmentManager manager) {
             super(manager);
-            Log.d("ADAPTER:", "IN MANAGER");
 
         }
 
         @Override
         public Fragment getItem(int position) {
-            Log.d("ADAPTER:", "IN POSSS");
             return mFragmentList.get(position);
         }
 
@@ -368,7 +320,6 @@ public class DetailViewActivity extends AppCompatActivity implements OnMapReadyC
         }
 
         public void addFragment(Fragment fragment, String title) {
-            Log.d("ADAPTER:", "IN ADDING");
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
@@ -395,7 +346,6 @@ public class DetailViewActivity extends AppCompatActivity implements OnMapReadyC
                     style.addImage(("marker_icon"), BitmapFactory.decodeResource(getResources(), R.drawable.ic_map_marker));
                     //loadHouseData(style);
                 } catch (Exception exception) {
-                    Log.d("MapView", exception.toString());
                 }
             }
         });

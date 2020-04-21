@@ -30,6 +30,7 @@
                 android:textAlignment="viewStart"
                 android:textStyle="bold" />
 
+
             <com.androidbuts.multispinnerfilter.MultiSpinnerSearch
                 android:id="@+id/searchMake"
                 android:layout_width="fill_parent"
@@ -37,7 +38,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@android:color/background_light"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/round_cart_background"
                 android:elevation="24dp"
                 android:minHeight="45dp"
                 app:hintText="Any" />
@@ -62,7 +64,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@android:color/background_light"
+                android:background="@drawable/round_cart_background"
                 android:clickable="false"
                 android:elevation="24dp"
                 android:minHeight="45dp"
@@ -90,7 +92,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@android:color/background_light"
+                android:background="@drawable/round_cart_background"
                 android:elevation="24dp"
                 android:minHeight="45dp"
                 app:hintText="Any" />
@@ -116,7 +118,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@android:color/background_light"
+                android:background="@drawable/round_cart_background"
                 android:elevation="24dp"
                 android:minHeight="45dp"
                 app:hintText="Any" />
@@ -143,7 +145,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@android:color/background_light"
+                android:background="@drawable/round_cart_background"
                 android:elevation="24dp"
                 android:minHeight="45dp"
                 app:hintText="Any" />
@@ -160,31 +162,31 @@
                 android:layout_marginStart="10dp"
                 android:text="Transmission:"
                 android:textStyle="bold" />
+
             <RadioGroup
+                android:id="@+id/transmission_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
-                android:layout_marginStart="8dp"
                 android:gravity="center_horizontal"
-                android:id="@+id/transmission_group"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/transmission_any"
-                    android:layout_width="130dp"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
                     android:checked="true"
                     android:text="Any" />
 
                 <RadioButton
                     android:id="@+id/transmission_manual"
-                    android:layout_width="130dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="Manual" />
 
                 <RadioButton
                     android:id="@+id/transmission_automatic"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="Automatic" />
             </RadioGroup>
@@ -201,31 +203,31 @@
                 android:layout_marginLeft="10dp"
                 android:text="Condition:"
                 android:textStyle="bold" />
+
             <RadioGroup
+                android:id="@+id/condition_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
-                android:layout_marginStart="8dp"
                 android:gravity="center_horizontal"
-                android:id="@+id/condition_group"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/sound"
-                    android:layout_width="130dp"
+                    android:layout_width="90dp"
                     android:layout_height="match_parent"
                     android:checked="true"
                     android:text="Any" />
 
                 <RadioButton
                     android:id="@+id/vibration"
-                    android:layout_width="130dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:text="Used" />
 
                 <RadioButton
                     android:id="@+id/silent"
-                    android:layout_width="130dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="New" />
             </RadioGroup>
@@ -280,25 +282,28 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="200000 ‎€"
+                        android:text="60000+ ‎€"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
-            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+
+            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                 android:id="@+id/rangePrice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
                 android:minHeight="40dp"
-                app:position="right"
-                app:bar_color="#C69E89"
-                app:bar_highlight_color="#A54B17"
-                app:corner_radius="10"
+                app:bar_color="@android:color/holo_orange_dark"
+                app:bar_highlight_color="#000"
+                app:corner_radius="1"
                 app:data_type="_integer"
-                app:left_thumb_color="#775E4F"
-                app:left_thumb_color_pressed="#4C2D1A"
-                app:max_value="200000"
+                app:left_thumb_color="#000"
+                app:max_value="60000"
                 app:min_value="0"
-                app:steps="100" />
+                app:right_thumb_color="#000"
+                app:steps="100"
+                app:thumb_diameter="20dp" />
 
             <View
                 android:id="@+id/divider16"
@@ -352,20 +357,25 @@
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
-            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+
+            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                 android:id="@+id/rangeYear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
                 android:minHeight="40dp"
-                app:bar_color="#C69E89"
-                app:bar_highlight_color="#A54B17"
+                app:bar_color="@android:color/holo_orange_dark"
+                app:bar_highlight_color="#000"
                 app:corner_radius="10"
                 app:data_type="_integer"
-                app:left_thumb_color="#775E4F"
-                app:left_thumb_color_pressed="#4C2D1A"
+                app:left_thumb_color="#000"
                 app:max_value="2020"
                 app:min_value="1950"
-                app:steps="1" />
+
+                app:right_thumb_color="#000"
+                app:steps="1"
+                app:thumb_diameter="20dp" />
 
 
             <View
@@ -399,7 +409,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="0KM"
+                        android:text="0 KM"
                         android:textStyle="bold" />
 
                     <TextView
@@ -416,25 +426,29 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="1000000KM"
+                        android:text="300k KM"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
-            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                 android:id="@+id/rangeMileage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
                 android:minHeight="40dp"
-                app:bar_color="#C69E89"
-                app:bar_highlight_color="#A54B17"
+                app:bar_color="@android:color/holo_orange_dark"
+                app:bar_highlight_color="#000"
                 app:corner_radius="10"
                 app:data_type="_integer"
-                app:left_thumb_color="#775E4F"
-                app:left_thumb_color_pressed="#4C2D1A"
+                app:left_thumb_color="#000"
                 app:max_value="300000"
                 app:min_value="0"
-                app:steps="5000" />
+
+                app:right_thumb_color="#000"
+                app:steps="5000"
+                app:thumb_diameter="20dp" />
 
             <View
                 android:id="@+id/divider18"
@@ -489,21 +503,24 @@
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
-            <com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar
+
+            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                 android:id="@+id/range_enginesize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:bar_color="#F7BB88"
-                app:bar_highlight_color="#E07416"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                app:bar_height="5dp"
+                app:bar_color="@android:color/holo_orange_dark"
+                app:left_thumb_color="#000"
+                app:bar_highlight_color="#000"
+                app:right_thumb_color="#000"
                 app:corner_radius="10"
                 app:data_type="_float"
-                app:left_thumb_color="#775E4F"
-                app:left_thumb_color_pressed="#4C2D1A"
                 app:max_value="10"
                 app:min_value="0"
-                app:right_thumb_color="#775E20"
-                app:right_thumb_color_pressed="#4C1D1F"
-                app:steps="0.1" />
+                app:steps="0.1"
+                app:thumb_diameter="20dp" />
 
             <View
                 android:id="@+id/divider19"
@@ -521,7 +538,7 @@
                     android:layout_height="50dp"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:background="@android:color/darker_gray"
+                    android:background="@drawable/round_reset_button_background"
                     android:elevation="10dp"
                     android:text="Resset" />
 
@@ -531,7 +548,7 @@
                     android:layout_height="50dp"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:background="@color/ColorPrimary"
+                    android:background="@drawable/round_apply_button_background"
                     android:elevation="10dp"
                     android:text="Apply" />
             </LinearLayout>

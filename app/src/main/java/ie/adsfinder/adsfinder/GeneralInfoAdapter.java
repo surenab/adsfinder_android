@@ -1,33 +1,15 @@
 package ie.adsfinder.adsfinder;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.v4.text.HtmlCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import ie.adsfinder.adsfinder.api.CarResult;
 
 import static ie.adsfinder.adsfinder.AdsfinderUtils.capitalizeWord;
 

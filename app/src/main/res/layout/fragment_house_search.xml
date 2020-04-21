@@ -5,13 +5,38 @@
     android:layout_height="match_parent"
     tools:context=".HouseSearch">
 
-    <!-- TODO: Update blank fragment layout -->
-    <Button
+    <LinearLayout
+        android:id="@+id/carMainSearchLinear"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Search 100K+ Properties"
-        android:onClick="searchFunction"
-        android:id="@+id/house_search_button"
-    />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/house_search_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_apply_button_background"
+            android:elevation="24dp"
+            android:onClick="searchFunction"
+            android:text="Search From 100K+ Properties"
+            android:textAllCaps="false" />
+        <include
+            layout="@layout/fragment_main_search"
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/main_page_progress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="244dp"
+        android:layout_marginTop="244dp"
+        />
 
 </FrameLayout>

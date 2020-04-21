@@ -1,23 +1,6 @@
 package ie.adsfinder.adsfinder;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
-import com.google.gson.JsonParser;
-import com.mapbox.android.core.location.LocationEngine;
-import com.mapbox.android.core.permissions.PermissionsListener;
-import com.mapbox.android.core.permissions.PermissionsManager;
-import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
-import com.mapbox.geojson.LineString;
-import com.mapbox.geojson.Point;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
@@ -26,28 +9,31 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.text.HtmlCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.mapbox.android.core.location.LocationEngine;
+import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -56,9 +42,6 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin;
 import com.mapbox.mapboxsdk.style.expressions.Expression;
 import com.mapbox.mapboxsdk.style.layers.CircleLayer;
-import com.mapbox.mapboxsdk.style.layers.LineLayer;
-import com.mapbox.mapboxsdk.style.layers.Property;
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.layers.TransitionOptions;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions;
@@ -67,24 +50,12 @@ import com.mapbox.mapboxsdk.utils.BitmapUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.concurrent.Future;
 
-import ie.adsfinder.adsfinder.api.CarResult;
-import ie.adsfinder.adsfinder.api.CarsModel;
-import ie.adsfinder.adsfinder.api.ElectronicsModel;
+import ie.adsfinder.adsfinder.api.DetailHouseResult;
 import ie.adsfinder.adsfinder.api.HouseMapResult;
-import ie.adsfinder.adsfinder.api.HouseResult;
-import ie.adsfinder.adsfinder.api.HousesModel;
 import ie.adsfinder.adsfinder.api.HuseMapModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -108,6 +79,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.circleRadius;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconColor;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconSize;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.textAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.textColor;
@@ -115,13 +87,11 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.textField;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.textIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.textOffset;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.textSize;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 
 public class Map extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener {
     private MapView mapView;
     private MapboxMap mapboxMap;
     private GeoJsonSource geoJsonSource;
-    private String map_type;
     private AdsfinderCarListService adsfinderService;
     private static final String CLUSTER_EARTHQUAKE_TRIANGLE_ICON_ID = "quake-triangle-icon-id";
     private static final String SINGLE_EARTHQUAKE_TRIANGLE_ICON_ID = "home_image";
@@ -134,23 +104,76 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
     private List<Feature> currentFeatures = new ArrayList<>();
     private ProgressBar tv_Progress;
     private ConstraintLayout mapCard;
+    private ProgressBar progressBarLoading;
+    private Button cardMoreButton;
+    private Integer house_ad_id;
 
+    private Long min_price;
+    private Long max_price;
+    private Long min_beds;
+    private Long max_beds;
+    private Long min_bathrooms;
+    private Long max_bathrooms;
+    private List<String> property_type = new ArrayList<>();
+    private String property_category;
+    FrameLayout activity_map;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
         setContentView(R.layout.activity_map);
-
+        activity_map = new FrameLayout(this);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
+        cardMoreButton = findViewById(R.id.cardMoreButton);
+        cardMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent detail_intent = new Intent(Map.this, DetailViewActivity.class);
+                detail_intent.putExtra("SType", "Houses");
+                detail_intent.putExtra("id", house_ad_id);
+                startActivity(detail_intent);
+            }
+        });
+
+        progressBarLoading = findViewById(R.id.map_page_progress);
+        mapView = findViewById(R.id.mapView);
+        progressBarLoading.setVisibility(View.VISIBLE);
+        mapView.setVisibility(View.INVISIBLE);
+
         adsfinderService = AdsfinderApi.getClient().create(AdsfinderCarListService.class);
 
-        Spinner spinner = findViewById(R.id.county_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.counties_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        min_price = getIntent().getLongExtra("min_price", 0);
+        max_price = getIntent().getLongExtra("max_price", 100000);
+        min_beds = getIntent().getLongExtra("min_beds", 0);
+        max_beds = getIntent().getLongExtra("max_beds", 6);
+        min_bathrooms = getIntent().getLongExtra("min_bathrooms", 0);
+        max_bathrooms = getIntent().getLongExtra("max_bathrooms", 5);
+        property_type = getIntent().getStringArrayListExtra("property_type");
+        property_category = getIntent().getStringExtra("property_category");
+        if (min_price==0) {
+            min_price=null;
+        }
+        if (max_price == 1000000) {
+            max_price = null;
+        }
+        if (min_beds == 0) {
+            min_beds = null;
+        }
+        if (max_beds == 6) {
+            max_beds = null;
+        }
+        if (min_bathrooms == 0) {
+            min_bathrooms = null;
+        }
+        if (max_bathrooms == 5) {
+            max_bathrooms = null;
+        }
+        if (property_type!=null && property_type.isEmpty()) {
+            property_type = null;
+        }
 
         mapCard = findViewById(R.id.singleHouseMapCard);
 
@@ -164,14 +187,11 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
 
 
         Bundle extras = getIntent().getExtras();
-        map_type = extras.getString("map_type");
 
-        mapView = (MapView) findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
     }
-
     @Override
     public void onMapReady(@NonNull MapboxMap map) {
         this.mapboxMap = map;
@@ -183,15 +203,12 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
                     style.setTransition(new TransitionOptions(0, 0, false));
                     loadHouseData(style);
                 } catch (Exception exception) {
-                    Log.d("MapView", exception.toString());
+                    //Log.d("MapView", exception.toString());
                 }
                 mapboxMap.addOnMapClickListener(Map.this);
             }
         });
     }
-
-
-
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
         PointF screenPoint = mapboxMap.getProjection().toScreenLocation(point);
@@ -202,21 +219,19 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
             mapCard.setVisibility(View.VISIBLE);
             Feature selectedFeature = features.get(0);
             Number id = selectedFeature.getNumberProperty("id");
+            house_ad_id = id.intValue();
             loadSingleHouseData(id.intValue());
         }
         return true;
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.map_main, menu);
         return true;
     }
 
     private Call<HuseMapModel> callMapHouseApi() {
-        return adsfinderService.getMapHouses();
+        return adsfinderService.getMapHouses(min_price, max_price, min_beds, max_beds, min_bathrooms, max_bathrooms, property_type, property_category);
     }
     private List<HouseMapResult> fetchHouseMapResults(Response<HuseMapModel> response) {
         HuseMapModel houses = response.body();
@@ -229,6 +244,9 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
                 List<HouseMapResult> results = fetchHouseMapResults(response);
                 //addClusteredApiJsonSource(loadedMapStyle, results);
                 addClusteredGeoJsonSource2(loadedMapStyle, results);
+                progressBarLoading.setVisibility(View.GONE);
+                mapView.setVisibility(View.VISIBLE);
+
             }
             @Override
             public void onFailure(Call<HuseMapModel> call, Throwable t) {
@@ -238,58 +256,58 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
 
     }
 
-    private Call<HouseResult> callSingleHouseApi(Integer id) {
+    private Call<DetailHouseResult> callSingleHouseApi(Integer id) {
         return adsfinderService.getMapHouseById(id);
     }
     private void loadSingleHouseData(Integer id) {
-        callSingleHouseApi(id).enqueue(new Callback<HouseResult>() {
+        callSingleHouseApi(id).enqueue(new Callback<DetailHouseResult>() {
             @Override
-            public void onResponse(Call<HouseResult> call, Response<HouseResult> response) {
-                HouseResult result = response.body();
+            public void onResponse(Call<DetailHouseResult> call, Response<DetailHouseResult> response) {
+                tv_Progress = findViewById(R.id.ad_progress);
+                tv_Progress.setVisibility(View.VISIBLE);
 
-                TextView tv_header = findViewById(R.id.cardHeaderView);
-                tv_header.setText(AdsfinderUtils.capitalizeWord(result.getProperty_title()));
+                DetailHouseResult result = response.body();
 
                 TextView tv_donor = findViewById(R.id.cardDonorView);
-                String donor_text = new String("<a href='").concat(result.getUrl()).concat("' target='_top'>").concat(StringUtils.capitalize(result.getDonor())).concat("</a>");
-                tv_donor.setText(HtmlCompat.fromHtml(donor_text, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                tv_donor.setText(" "+StringUtils.capitalize(result.getDonor()));
 
 
                 TextView tv_county = findViewById(R.id.cardCountyView);
-                tv_county.setText(AdsfinderUtils.capitalizeWord(result.getAddress().getTown().trim()+", "+result.getAddress().getCounty().trim()));
+                tv_county.setText(AdsfinderUtils.capitalizeWord(" "+result.getLightaddress().getCounty().trim()+", "+result.getLightaddress().getTown().trim()));
 
                 TextView tv_cardBedView = findViewById(R.id.cardBedView);
-                tv_cardBedView.setText(Integer.toString(result.getBeds()) + " Beds");
+                tv_cardBedView.setText(" "+Integer.toString(result.getGeneralinfo().getBeds()) + " Beds");
 
                 TextView tv_cardBathView = findViewById(R.id.cardBathView);
-                tv_cardBathView.setText(Integer.toString(result.getBathrooms()) + " Bathrooms");
+                tv_cardBathView.setText(" "+Integer.toString(result.getGeneralinfo().getBaths()) + " Bathrooms");
 
                 TextView tv_price = findViewById(R.id.cardPriceVIew);
                 if (result.getPrice()==null) {
-                    tv_price.setText("Unknown");
+                    tv_price.setText(" Unknown");
                 } else {
-                    tv_price.setText(result.getPrice() + "€");
+                    tv_price.setText(" "+result.getPrice() + "€");
                 }
 
                 ImageView card_photo = findViewById(R.id.cardImageView);
-                tv_Progress = findViewById(R.id.ad_progress);
-                Glide.with(getWindow().getContext()).load(result.getMainimageurl()).apply(new RequestOptions().placeholder(R.color.colorPrimary).dontAnimate().skipMemoryCache(true)).listener(new RequestListener<Drawable>() {
+                Glide.with(getWindow().getContext()).load(result.getMainimageurl()).apply(new RequestOptions().dontAnimate().skipMemoryCache(true)).listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        Log.d("IMAGE", "LOADED FAIL");
                         tv_Progress.setVisibility(View.GONE);
                         return false;
                     }
-
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        Log.d("IMAGE", "LOADED SUCCESS RUNNING GONE");
                         tv_Progress.setVisibility(View.GONE);
                         return false;
                     }
                 }).into(card_photo);
-
+                Log.d("IMAGE", "Done");
+                tv_Progress.setVisibility(View.GONE);
             }
             @Override
-            public void onFailure(Call<HouseResult> call, Throwable t) {
+            public void onFailure(Call<DetailHouseResult> call, Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -316,7 +334,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
                 loadedMapStyle.addSource(routeSource);
             }
         } catch (Exception uriSyntaxException) {
-            Log.e("Check the URL %s" , uriSyntaxException.getMessage());
+            //Log.e("Check the URL %s" , uriSyntaxException.getMessage());
         }
 
         SymbolLayer unclusteredSymbolLayer = new SymbolLayer("unclustered-points", EARTHQUAKE_SOURCE_ID);
@@ -455,11 +473,17 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Mapbox
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_map_filter:
-                mapboxMap.setStyle(Style.MAPBOX_STREETS);
+                Intent search_intent = new Intent(Map.this, HouseMapFilterActivity.class);
+                startActivity(search_intent);
                 return true;
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.action_map_refresh:
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
             default:
                 return super.onOptionsItemSelected(item);
         }

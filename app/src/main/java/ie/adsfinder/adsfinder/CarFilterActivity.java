@@ -1,9 +1,9 @@
 package ie.adsfinder.adsfinder;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -13,22 +13,18 @@ import android.widget.Toast;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
-import com.androidbuts.multispinnerfilter.SingleSpinner;
-import com.androidbuts.multispinnerfilter.SingleSpinnerSearch;
 import com.androidbuts.multispinnerfilter.SpinnerListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
-import com.crystal.crystalrangeseekbar.widgets.BubbleThumbRangeSeekbar;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import ie.adsfinder.adsfinder.api.CarForm;
@@ -37,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CarFilterActivity extends AppCompatActivity {
-    private String TAG = "CARFILTER";
+    private String TAG = "CARFILTER ";
     private AdsfinderCarListService adsfinderService;
     //Selected values from form
     private List<String> selected_fueltypes;
@@ -72,10 +68,10 @@ public class CarFilterActivity extends AppCompatActivity {
     MultiSpinnerSearch searchModel;
     MultiSpinnerSearch searchCounty;
     MultiSpinnerSearch searchFuelType;
-    BubbleThumbRangeSeekbar year_spinner;
-    BubbleThumbRangeSeekbar mileage_spinner;
-    BubbleThumbRangeSeekbar enginesize_spinner;
-    BubbleThumbRangeSeekbar price_spinner;
+    CrystalRangeSeekbar year_spinner;
+    CrystalRangeSeekbar mileage_spinner;
+    CrystalRangeSeekbar enginesize_spinner;
+    CrystalRangeSeekbar price_spinner;
     RadioGroup transmission_radioGroup;
     RadioGroup condition_radioGroup;
     TextView tvPriceMin;
@@ -86,6 +82,7 @@ public class CarFilterActivity extends AppCompatActivity {
     TextView tvEngineSizeMax;
     TextView tvMIleageMin;
     TextView tvMIleageMax;
+    TextView clickTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +105,7 @@ public class CarFilterActivity extends AppCompatActivity {
         searchArea.setClickable(false);
         searchArea.setEnabled(false);
         searchMake = findViewById(R.id.searchMake);
+        searchMake.setColorSeparation(true);
         searchModel = findViewById(R.id.searchModel);
         searchModel.setClickable(false);
         searchModel.setEnabled(false);
@@ -115,7 +113,8 @@ public class CarFilterActivity extends AppCompatActivity {
 
 
         price_spinner = findViewById(R.id.rangePrice);
-        price_spinner.setMaxStartValue(200000);
+        price_spinner.setMaxStartValue(60000);
+        price_spinner.apply();
         tvPriceMin = findViewById(R.id.textPriceMin);
         tvPriceMax = findViewById(R.id.textPriceMax);
         price_spinner.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
@@ -129,6 +128,7 @@ public class CarFilterActivity extends AppCompatActivity {
         year_spinner = findViewById(R.id.rangeYear);
         year_spinner.setMaxStartValue(2020);
         year_spinner.setRight(2020);
+        year_spinner.apply();
         tvYearMin = findViewById(R.id.textYearMin);
         tvYearMax = findViewById(R.id.textYearMax);
         year_spinner.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
@@ -141,17 +141,21 @@ public class CarFilterActivity extends AppCompatActivity {
 
         mileage_spinner = findViewById(R.id.rangeMileage);
         mileage_spinner.setMaxStartValue(300000);
+        mileage_spinner.apply();
         tvMIleageMin = findViewById(R.id.textMileageMin);
         tvMIleageMax = findViewById(R.id.textMileageMax);
         mileage_spinner.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number number, Number number1) {
-                tvMIleageMin.setText(String.valueOf(number)+"KM");
-                tvMIleageMax.setText(String.valueOf(number1)+"KM");
+                Integer minV = number.intValue()/1000;
+                Integer maxV = number1.intValue()/1000;
+                tvMIleageMin.setText(minV.toString()+"k KM");
+                tvMIleageMax.setText(maxV.toString()+"k KM");
             }
         });
         enginesize_spinner = findViewById(R.id.range_enginesize);
         enginesize_spinner.setMaxStartValue(10);
+        enginesize_spinner.apply();
         tvEngineSizeMin = findViewById(R.id.textEngineSizeMin);
         tvEngineSizeMax = findViewById(R.id.textEngineSizeMax);
         enginesize_spinner.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
@@ -164,7 +168,7 @@ public class CarFilterActivity extends AppCompatActivity {
 
         transmission_radioGroup = findViewById(R.id.transmission_group);
         condition_radioGroup = findViewById(R.id.condition_group);
-
+        clickTextView = findViewById(R.id.textView14);
 
 
 
@@ -210,45 +214,42 @@ public class CarFilterActivity extends AppCompatActivity {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG+"price", price_spinner.getSelectedMinValue().toString());
-                Log.i(TAG+"price", price_spinner.getSelectedMaxValue().toString());
-                Log.i(TAG+"year_spinner", year_spinner.getSelectedMinValue().toString());
-                Log.i(TAG+"year_spinner", year_spinner.getSelectedMaxValue().toString());
-                Log.i(TAG+"mileage_spinner", mileage_spinner.getSelectedMinValue().toString());
-                Log.i(TAG+"mileage_spinner", mileage_spinner.getSelectedMaxValue().toString());
-                Log.i(TAG+"enginesize_spinner", enginesize_spinner.getSelectedMinValue().toString());
-                Log.i(TAG+"enginesize_spinner", enginesize_spinner.getSelectedMaxValue().toString());
-
                 int selectedId = transmission_radioGroup.getCheckedRadioButtonId();
                 RadioButton transmission_radioButton = findViewById(selectedId);
-                Log.i(TAG+"transmission_radioGroup", transmission_radioButton.getText().toString());
-
                 int selectedId_condition = condition_radioGroup.getCheckedRadioButtonId();
                 RadioButton condition_radioButton = findViewById(selectedId_condition);
-                Log.i(TAG+"condition_radioButton", condition_radioButton.getText().toString());
 
-                if (selected_fueltypes != null && !selected_fueltypes.isEmpty()){
-                    Log.i(TAG+"selected_fueltypes", selected_fueltypes.toString());
-                }
+                Intent search_intent = new Intent(CarFilterActivity.this, SearchResult.class);
+                search_intent.putExtra("SearchType", "Cars");
+                search_intent.putStringArrayListExtra("county", new ArrayList<String>(new HashSet(selected_county)));
+                search_intent.putStringArrayListExtra("area", (ArrayList<String>) selected_area);
+                search_intent.putStringArrayListExtra("fueltype", (ArrayList<String>) selected_fueltypes);
+                search_intent.putStringArrayListExtra("model_name", (ArrayList<String>) selected_makes);
+                search_intent.putStringArrayListExtra("make_name", new ArrayList<String>(new HashSet(selected_models)));
 
-                if (selected_makes != null && !selected_makes.isEmpty()) {
-                    Log.i(TAG+"selected_makes", selected_makes.toString());
+                search_intent.putExtra("min_price", price_spinner.getSelectedMinValue());
+                search_intent.putExtra("max_price", price_spinner.getSelectedMaxValue());
+                search_intent.putExtra("min_firstregyear", year_spinner.getSelectedMinValue());
+                search_intent.putExtra("max_firstregyear", year_spinner.getSelectedMaxValue());
+                search_intent.putExtra("min_kilometer", mileage_spinner.getSelectedMinValue());
+                search_intent.putExtra("max_kilometer", mileage_spinner.getSelectedMaxValue());
+                search_intent.putExtra("min_enginesize", enginesize_spinner.getSelectedMinValue());
+                search_intent.putExtra("max_enginesize", enginesize_spinner.getSelectedMaxValue());
+                if (transmission_radioButton.getText() == "Any") {
+                    search_intent.putExtra("transmission", "");
+                } else {
+                    search_intent.putExtra("transmission", StringUtils.lowerCase(transmission_radioButton.getText().toString()));
                 }
-                if (selected_models != null && !selected_models.isEmpty()){
-                    Log.i(TAG+"selected_models", selected_models.toString());
+                if (condition_radioButton.getText() == "Any") {
+                    search_intent.putExtra("condition", "");
+                } else {
+                    search_intent.putExtra("condition", StringUtils.lowerCase(condition_radioButton.getText().toString()));
                 }
-
-                if (selected_county != null && !selected_county.isEmpty()) {
-                    Log.i(TAG+"selected_makes", selected_county.toString());
-                }
-                if (selected_area != null && !selected_area.isEmpty()){
-                    Log.i(TAG+"selected_models", selected_area.toString());
-                }
+                startActivity(search_intent);
             }
         });
 
     }
-
 
 
     private List<KeyPairBoolData> convertListToLBoolData(List<String> list) {
@@ -277,39 +278,46 @@ public class CarFilterActivity extends AppCompatActivity {
     }
 
     private void fillCarMakeForm(final List<KeyPairBoolData> listMakes) {
-            searchMake.setItems(listMakes, -1, new SpinnerListener() {
-                @Override
-                public void onItemsSelected(List<KeyPairBoolData> items) {
-                    selected_makes.clear();
-                    selected_models.clear();
+        searchMake.clearAnimation();
+        searchMake.setItems(listMakes, -1, new SpinnerListener() {
+            @Override
+            public void onItemsSelected(List<KeyPairBoolData> items) {
+                selected_makes.clear();
+                selected_models.clear();
+                for (int i = 0; i < items.size(); i++) {
+                    if (items.get(i).isSelected()) {
+                        selected_makes.add(StringUtils.lowerCase(items.get(i).getName()));
+                    }
+                }
+                if (!selected_makes.isEmpty()) {
                     searchModel.setClickable(true);
                     searchModel.setEnabled(true);
-                    for (int i = 0; i < items.size(); i++) {
-                        if (items.get(i).isSelected()) {
-                            selected_makes.add(items.get(i).getName());
-                        }
+                } else {
+                    searchModel.setClickable(false);
+                    searchModel.setEnabled(false);
+                }
+                List<String> modelFillList = new ArrayList<>();
+                for (int k = 0; k < selected_makes.size(); k++) {
+                    JsonElement jelement = makemodels.get(StringUtils.lowerCase(selected_makes.get(k)));
+                    JsonArray jelement_array = jelement.getAsJsonArray();
+                    for (int j = 0; j < jelement_array.size(); j++) {
+                        modelFillList.add(jelement_array.get(j).getAsJsonObject().get("name").getAsString());
                     }
-                    List<String> modelFillList = new ArrayList<>();
-                    for (int k = 0; k < selected_makes.size(); k++) {
-                        JsonElement jelement = makemodels.get(StringUtils.lowerCase(selected_makes.get(k)));
-                        JsonArray jelement_array = jelement.getAsJsonArray();
-                        for (int j = 0; j < jelement_array.size(); j++) {
-                            modelFillList.add(jelement_array.get(j).getAsJsonObject().get("name").getAsString());
-                        }
-                    }
-                    if (!modelFillList.isEmpty()) {
-                        fillCarModelForm(convertListToLBoolData(modelFillList));
-                    }
+                }
+                if (!modelFillList.isEmpty()) {
+                    fillCarModelForm(convertListToLBoolData(modelFillList));
+                }
+                searchMake.setEmptyTitle("Not Found Car manufacturer");
 
-                }
-            });
-            searchMake.setLimit(3, new MultiSpinnerSearch.LimitExceedListener() {
-                @Override
-                public void onLimitListener(KeyPairBoolData data) {
-                    Toast.makeText(getApplicationContext(), "Limit exceed ", Toast.LENGTH_LONG).show();
-                }
-            });
             }
+        });
+        searchMake.setLimit(3, new MultiSpinnerSearch.LimitExceedListener() {
+            @Override
+            public void onLimitListener(KeyPairBoolData data) {
+                Toast.makeText(getApplicationContext(), "Limit exceed ", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     private void fillCarModelForm(List<KeyPairBoolData> listModels) {
         searchModel.setClickable(true);
         searchModel.setEnabled(true);
@@ -318,7 +326,7 @@ public class CarFilterActivity extends AppCompatActivity {
             public void onItemsSelected(List<KeyPairBoolData> items) {
                 for (int i = 0; i < items.size(); i++) {
                     if (items.get(i).isSelected()) {
-                        selected_models.add(items.get(i).getName());
+                        selected_models.add(StringUtils.lowerCase(items.get(i).getName()));
                     }
                 }
             }
@@ -330,12 +338,17 @@ public class CarFilterActivity extends AppCompatActivity {
             public void onItemsSelected(List<KeyPairBoolData> items) {
                 selected_county.clear();
                 selected_area.clear();
-                searchArea.setClickable(false);
-                searchArea.setEnabled(true);
                 for (int i = 0; i < items.size(); i++) {
                     if (items.get(i).isSelected()) {
-                        selected_county.add(items.get(i).getName());
+                        selected_county.add(StringUtils.lowerCase(items.get(i).getName()));
                     }
+                }
+                if (!selected_county.isEmpty()) {
+                    searchArea.setClickable(true);
+                    searchArea.setEnabled(true);
+                } else {
+                    searchArea.setClickable(false);
+                    searchArea.setEnabled(false);
                 }
                 List<String> modelFillList = new ArrayList<>();
                 for (int k = 0; k < selected_county.size(); k++) {
@@ -359,7 +372,7 @@ public class CarFilterActivity extends AppCompatActivity {
             public void onItemsSelected(List<KeyPairBoolData> items) {
                 for (int i = 0; i < items.size(); i++) {
                     if (items.get(i).isSelected()) {
-                        selected_area.add(items.get(i).getName());
+                        selected_area.add(StringUtils.lowerCase(items.get(i).getName()));
                     }
                 }
             }
@@ -369,9 +382,10 @@ public class CarFilterActivity extends AppCompatActivity {
         searchFuelType.setItems(ffueltypes, -1, new SpinnerListener() {
             @Override
             public void onItemsSelected(List<KeyPairBoolData> items) {
+                selected_fueltypes.clear();
                 for (int i = 0; i < items.size(); i++) {
                     if (items.get(i).isSelected()) {
-                        selected_fueltypes.add(items.get(i).getName());
+                        selected_fueltypes.add(StringUtils.lowerCase(items.get(i).getName()));
                     }
                 }
             }

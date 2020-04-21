@@ -4,9 +4,24 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+
+import java.util.List;
+
+import ie.adsfinder.adsfinder.api.ElectronicResult;
+import ie.adsfinder.adsfinder.api.ElectronicsModel;
+import ie.adsfinder.adsfinder.api.HouseResult;
+import ie.adsfinder.adsfinder.api.HousesModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -28,7 +43,15 @@ public class HouseSearch extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private AdsfinderCarListService adsfinderService;
+    private RecyclerView recyclerViewRecent;
+    private RecyclerView recyclerViewFeauture;
+    private RecyclerView recyclerViewLatest;
+    private HousesAdapter adapterRecent;
+    private HousesAdapter adapterFeauture;
+    private HousesAdapter adapterLatest;
+    private ProgressBar progressBarLoading;
+    private LinearLayout mainContentLinear;
     public HouseSearch() {
         // Required empty public constructor
     }
@@ -64,7 +87,62 @@ public class HouseSearch extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_house_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_house_search, container, false);
+        adsfinderService = AdsfinderApi.getClient().create(AdsfinderCarListService.class);
+
+        recyclerViewLatest = view.findViewById(R.id.latest_list);
+        recyclerViewFeauture = view.findViewById(R.id.feuture_list);
+        recyclerViewRecent = view.findViewById(R.id.recent_list);
+
+        mainContentLinear = view.findViewById(R.id.carMainSearchLinear);
+        progressBarLoading = view.findViewById(R.id.main_page_progress);
+        mainContentLinear.setVisibility(View.INVISIBLE);
+        progressBarLoading.setVisibility(View.VISIBLE);
+
+        LinearLayoutManager layoutManagerLatest = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManagerFeauture = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManagerRecent = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewLatest.setLayoutManager(layoutManagerLatest);
+        recyclerViewLatest.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewFeauture.setLayoutManager(layoutManagerFeauture);
+        recyclerViewFeauture.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewRecent.setLayoutManager(layoutManagerRecent);
+        recyclerViewRecent.setItemAnimator(new DefaultItemAnimator());
+
+        adapterLatest = new HousesAdapter(getContext());
+        recyclerViewLatest.setAdapter(adapterLatest);
+
+        adapterFeauture = new HousesAdapter(getContext());
+        recyclerViewFeauture.setAdapter(adapterFeauture);
+
+        adapterRecent = new HousesAdapter(getContext());
+        recyclerViewRecent.setAdapter(adapterRecent);
+        callElectronicsApi().enqueue(new Callback<HousesModel>() {
+            @Override
+            public void onResponse(Call<HousesModel> call, Response<HousesModel> response) {
+                List<HouseResult> results = fetchResults(response);
+                adapterLatest.addAll(results);
+                adapterRecent.addAll(results);
+            }
+            @Override
+            public void onFailure(Call<HousesModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        callFeatureElectronicsApi().enqueue(new Callback<HousesModel>() {
+            @Override
+            public void onResponse(Call<HousesModel> call, Response<HousesModel> response) {
+                List<HouseResult> results = fetchResults(response);
+                adapterFeauture.addAll(results);
+                progressBarLoading.setVisibility(View.GONE);
+                mainContentLinear.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onFailure(Call<HousesModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -101,5 +179,15 @@ public class HouseSearch extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    private Call<HousesModel> callFeatureElectronicsApi() {
+        return adsfinderService.getFeatureHouses();
+    }
+    private Call<HousesModel> callElectronicsApi() {
+        return adsfinderService.getHouses(0,null, null, null, null, null, null, null, null, null,null,null, null);
+    }
+    private List<HouseResult> fetchResults(Response<HousesModel> response) {
+        HousesModel data = response.body();
+        return data.getResults();
     }
 }

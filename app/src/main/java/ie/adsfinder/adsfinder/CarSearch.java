@@ -10,11 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,8 @@ public class CarSearch extends Fragment {
     private CardsAdapter carAdapterFeauture;
     private CardsAdapter carAdapterLatest;
     private OnFragmentInteractionListener mListener;
-
+    private ProgressBar progressBarLoading;
+    private LinearLayout mainContentLinear;
     public CarSearch() {
         // Required empty public constructor
     }
@@ -93,6 +95,12 @@ public class CarSearch extends Fragment {
         recyclerViewFeauture = view.findViewById(R.id.feuture_list);
         recyclerViewRecent = view.findViewById(R.id.recent_list);
 
+        mainContentLinear = view.findViewById(R.id.carMainSearchLinear);
+        mainContentLinear.setVisibility(View.INVISIBLE);
+        progressBarLoading = view.findViewById(R.id.main_page_progress);
+        progressBarLoading.setVisibility(View.VISIBLE);
+
+
         LinearLayoutManager layoutManagerLatest = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManagerFeauture = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager layoutManagerRecent = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -118,8 +126,20 @@ public class CarSearch extends Fragment {
             public void onResponse(Call<CarsModel> call, Response<CarsModel> response) {
                 List<CarResult> results = fetchResults(response);
                 carAdapterLatest.addAll(results);
-                carAdapterFeauture.addAll(results);
                 carAdapterRecent.addAll(results);
+            }
+            @Override
+            public void onFailure(Call<CarsModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        callFeatureCarsApi().enqueue(new Callback<CarsModel>() {
+            @Override
+            public void onResponse(Call<CarsModel> call, Response<CarsModel> response) {
+                List<CarResult> results = fetchResults(response);
+                carAdapterFeauture.addAll(results);
+                progressBarLoading.setVisibility(View.GONE);
+                mainContentLinear.setVisibility(View.VISIBLE);
             }
             @Override
             public void onFailure(Call<CarsModel> call, Throwable t) {
@@ -165,8 +185,11 @@ public class CarSearch extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    private Call<CarsModel> callFeatureCarsApi() {
+        return adsfinderService.getFeatureCars();
+    }
     private Call<CarsModel> callCarsApi() {
-        return adsfinderService.getCars(0);
+        return adsfinderService.getCars(0,null,null,null,null,null,null,null,null, null,null,null,null,null, null, null);
     }
     private List<CarResult> fetchResults(Response<CarsModel> response) {
         CarsModel cars = response.body();

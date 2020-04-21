@@ -88,5 +88,7 @@
         <item>Hockey 5</item>
         <item>Swimming 5</item>
     </string-array>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>

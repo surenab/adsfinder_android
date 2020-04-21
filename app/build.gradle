@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "ie.adsfinder.adsfinder"
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -40,4 +40,15 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.github.pratikbutani:MultiSelectSpinner:-SNAPSHOT'
     implementation 'com.jemshit:crystal-range-seekbar:1.2.0'
+    implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
+
+}
+
+android {
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 }

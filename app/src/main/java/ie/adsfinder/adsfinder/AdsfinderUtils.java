@@ -2,8 +2,6 @@ package ie.adsfinder.adsfinder;
 
 import android.util.Log;
 
-import java.security.KeyStore;
-
 public class AdsfinderUtils {
     public static boolean isStringEmpty(String s) {
         if (s == null || s.isEmpty()) {

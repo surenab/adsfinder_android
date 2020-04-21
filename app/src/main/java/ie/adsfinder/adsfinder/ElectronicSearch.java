@@ -4,9 +4,22 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+
+import java.util.List;
+
+import ie.adsfinder.adsfinder.api.ElectronicResult;
+import ie.adsfinder.adsfinder.api.ElectronicsModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -28,6 +41,15 @@ public class ElectronicSearch extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private AdsfinderCarListService adsfinderService;
+    private RecyclerView recyclerViewRecent;
+    private RecyclerView recyclerViewFeauture;
+    private RecyclerView recyclerViewLatest;
+    private ElectronicsAdapter adapterRecent;
+    private ElectronicsAdapter adapterFeauture;
+    private ElectronicsAdapter adapterLatest;
+    private ProgressBar progressBarLoading;
+    private LinearLayout mainContentLinear;
 
     public ElectronicSearch() {
         // Required empty public constructor
@@ -64,10 +86,64 @@ public class ElectronicSearch extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_electronic_search, container, false);
+        View view =  inflater.inflate(R.layout.fragment_electronic_search, container, false);
+        adsfinderService = AdsfinderApi.getClient().create(AdsfinderCarListService.class);
+
+        recyclerViewLatest = view.findViewById(R.id.latest_list);
+        recyclerViewFeauture = view.findViewById(R.id.feuture_list);
+        recyclerViewRecent = view.findViewById(R.id.recent_list);
+
+        mainContentLinear = view.findViewById(R.id.carMainSearchLinear);
+        progressBarLoading = view.findViewById(R.id.main_page_progress);
+        mainContentLinear.setVisibility(View.INVISIBLE);
+        progressBarLoading.setVisibility(View.VISIBLE);
+
+        LinearLayoutManager layoutManagerLatest = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManagerFeauture = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManagerRecent = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewLatest.setLayoutManager(layoutManagerLatest);
+        recyclerViewLatest.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewFeauture.setLayoutManager(layoutManagerFeauture);
+        recyclerViewFeauture.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewRecent.setLayoutManager(layoutManagerRecent);
+        recyclerViewRecent.setItemAnimator(new DefaultItemAnimator());
+
+        adapterLatest = new ElectronicsAdapter(getContext());
+        recyclerViewLatest.setAdapter(adapterLatest);
+
+        adapterFeauture = new ElectronicsAdapter(getContext());
+        recyclerViewFeauture.setAdapter(adapterFeauture);
+
+        adapterRecent = new ElectronicsAdapter(getContext());
+        recyclerViewRecent.setAdapter(adapterRecent);
+        callElectronicsApi().enqueue(new Callback<ElectronicsModel>() {
+            @Override
+            public void onResponse(Call<ElectronicsModel> call, Response<ElectronicsModel> response) {
+                List<ElectronicResult> results = fetchResults(response);
+                adapterLatest.addAll(results);
+                adapterRecent.addAll(results);
+            }
+            @Override
+            public void onFailure(Call<ElectronicsModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        callFeatureElectronicsApi().enqueue(new Callback<ElectronicsModel>() {
+            @Override
+            public void onResponse(Call<ElectronicsModel> call, Response<ElectronicsModel> response) {
+                List<ElectronicResult> results = fetchResults(response);
+                adapterFeauture.addAll(results);
+                progressBarLoading.setVisibility(View.GONE);
+                mainContentLinear.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onFailure(Call<ElectronicsModel> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -101,5 +177,15 @@ public class ElectronicSearch extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    private Call<ElectronicsModel> callFeatureElectronicsApi() {
+        return adsfinderService.getFeatureElectronics();
+    }
+    private Call<ElectronicsModel> callElectronicsApi() {
+        return adsfinderService.getElectronics(0,null, null, null, null,null, null);
+    }
+    private List<ElectronicResult> fetchResults(Response<ElectronicsModel> response) {
+        ElectronicsModel data = response.body();
+        return data.getResults();
     }
 }

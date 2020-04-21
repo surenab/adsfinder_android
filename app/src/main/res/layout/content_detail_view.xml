@@ -39,6 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:isScrollContainer="false"
+            android:minHeight="400dp"
             android:nestedScrollingEnabled="false"
             android:padding="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
